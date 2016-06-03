@@ -96,9 +96,7 @@ Sub ExSetParamControlEIRC_1(objParam, objParamOut)
 	
 	Dim acc_r
 		acc_r = objParam.Parameter("Значение элемента 3")
-		
-		
-		
+	
 	arrValue(0) = ""
 	for i=1 to 15 step 2
 		if (i <> 3) Then objParamOut.Parameter(CStr(i)) = arrValue End If
@@ -130,15 +128,12 @@ Sub ExSetParamControlEIRC_1(objParam, objParamOut)
 	
 	
 	Dim q
-	'err.raise -1, id_obj
+	
 	strSQL = "SELECT field_string FROM MINB_LIC_ACC_ADDFL WHERE id_object = " & id_obj & " AND id_field = " &_
 		"(	SELECT id_field FROM MINB_LIC_ACC_ADDFL_DIC WHERE Name_field = 'ID договора'	)"
 	GlobalDataAccess.Read OBJODBC.DSN(GlobalUser.SourceName), strSQL, RSC
 	if (TypeName(RSC) = "Empty") Then
 		' Ошибка: нет такого клиента!
-		'err.raise -1, acc_r
-		
-		
 		objParamOut.Parameter("Сообщение") = "ОШИБКА!! Нет такого клиента!"
    		objParamOut.Parameter("Завершено") = False
    		exit sub
@@ -160,7 +155,6 @@ Sub ExSetParamControlEIRC_1(objParam, objParamOut)
 		if (TypeName(RSC) <> "Empty") Then
 			arrValue(0) = RSC(0,0)
 			objParamOut.Parameter("1") = arrValue
-			
 		End If
 
 		' Город
@@ -262,7 +256,7 @@ Sub ExSetParamControlEIRC_1(objParam, objParamOut)
 			"SELECT name_field FROM " &_
 			"MINB_LIC_ACC_ADDFL_ARRAY a JOIN MINB_LIC_ACC_ADDFL_ARRAY_DIC_1 d " &_
 			"ON field_string = d.id_field " &_
-			"WHERE id_object = " & id_obj & " AND a.id_field = 41" '&_
+			"WHERE id_object = " & id_obj & " AND a.id_field = 14" '&_
 	'	"(	SELECT id_field FROM MINB_LIC_ACC_ADDFL_DIC WHERE Name_field = 'Код ресурса'	)"
 
 		GlobalDataAccess.Read OBJODBC.DSN(GlobalUser.SourceName), strSQL, RSC
@@ -298,13 +292,12 @@ Sub ExSetParamControlEIRC_1(objParam, objParamOut)
 			"SELECT name_field FROM " &_
 			"MINB_LIC_ACC_ADDFL_ARRAY a JOIN MINB_LIC_ACC_ADDFL_ARRAY_DIC_2 d " &_
 			"ON field_string = d.id_field " &_
-			"WHERE id_object = " & id_obj & " AND a.id_field = 44" '&_
+			"WHERE id_object = " & id_obj & " AND a.id_field = 17" '&_
 		'"(	SELECT id_field FROM MINB_LIC_ACC_ADDFL_DIC WHERE Name_field = 'Код услуги'	)"
 		
 		GlobalDataAccess.Read OBJODBC.DSN(GlobalUser.SourceName), strSQL, RSC
 		if (TypeName(RSC) <> "Empty") Then
-		For i=0 to Service_Count-2
-			'err.raise -1, Service_Count
+		For i=0 to Service_Count-1
 			arrValue(0) = RSC(0,i)
 			objParamOut.Parameter(CStr(50 + i*2)) = arrValue  
 		Next
@@ -359,7 +352,6 @@ Sub ExSetParamControlEIRC_2(objParam, objParamOut)
 	Dim ArrP(5)
 	dim tempstr, temparr, l
 	
-	
 	Dim TmpArr1(3,0)
 		TmpArr1(0,0) = 0
 		TmpArr1(1,0) = "A"
@@ -390,9 +382,8 @@ Sub ExSetParamControlEIRC_2(objParam, objParamOut)
 
 			ArrS(i)(0,0) = objParam.Parameter("Значение элемента " & CStr(26+4*6+i*2))'"Лв"
 			ArrS(i)(1,0) = (objParam.Parameter("Значение элемента " & CStr(27+4*6+i*2)))  '1
-			
+	
 			If (not (isNumeric(ArrS(i)(1,0)))) Then 
-
 				temparr = split(ArrS(i)(1,0),".")				
 				for k = 0 to Ubound(temparr)
 				   if k = Ubound(temparr) then
@@ -403,8 +394,8 @@ Sub ExSetParamControlEIRC_2(objParam, objParamOut)
 				next
 				l = len(tempstr)
 				tempstr = Mid(tempstr,1,l)
-				ArrS(i)(1,0) = tempstr		
-				tempstr = ""
+				ArrS(i)(1,0) = tempstr	
+				tempstr = ""		
 			End If
 
 	Next
